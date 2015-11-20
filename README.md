@@ -1,2 +1,0 @@
-# AED
-Trabalhos de AED
