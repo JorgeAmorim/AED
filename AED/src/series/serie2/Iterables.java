@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class Iterables {
-    //OTARIO DO CRL
     public static Iterable<String> getPhrasesStart(Iterable<Iterable<String>> phrases, String prefix){
        	return new Iterable<String>() {
 			@Override
