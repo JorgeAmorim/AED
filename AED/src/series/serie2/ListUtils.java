@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 public class ListUtils {
 
-    public static <E> Node<E> interleaved( Node< Node < E >> list ) {
+    /*public static <E> Node<E> interleaved( Node< Node < E >> list ) {
         Node<E> newList = new Node<E>();
         newList.next = newList.previous = newList;
 
@@ -20,22 +20,29 @@ public class ListUtils {
         while(n<5){
 
             Node<Node<E>>  curr = list2.next;
+            list2.previous = list2.next = list2;
 
-            while(curr != list2){
+            while(curr != curr.next){
                 Node<E> sublist = curr.value;
+                Node<E> auxSublist = sublist;
                 if(sublist.next != sublist){
                     sublist.next.previous = newList.previous;
                     newList.previous.next = sublist.next;
                     newList.previous = sublist.next;
                     sublist.next.next = newList;
+
+                    auxSublist.next.previous = list2.previous.value;
+                    list2.previous.next.value = auxSublist;
+                    list2.previous.value = auxSublist;
+                    auxSublist.next.next = list2.value;
                 }
                 curr = curr.next;
             }
 
             Node<Node<E>> aux = list2.next;
-            list2.previous = list2.next = list2;
+            //list2.previous = list2.next = list2;
 
-            while(aux.next != aux){//ver while
+            /*while(aux.next != aux){//ver while
                 Node<E> aux2 = aux.next.value;
                 if(aux2.next != aux2){
                     aux2.next.previous = list2.previous.value;
@@ -49,6 +56,42 @@ public class ListUtils {
         }
 
         list.previous = list.next = list;
+        return newList;
+    }*/
+
+    public static <E> Node<E> interleaved( Node< Node < E >> list ) {
+        Node<E> newList = new Node<E>();
+        newList.next = newList.previous = newList;
+
+        if(list.next == list)
+            return newList;
+
+        Node<Node<E>> list2 = list;
+
+        while(list2 != list2.next){
+
+            Node<Node<E>>  curr = list2.next;
+            list2.previous = list2.next = list2;
+
+            while(curr != curr.next){
+                Node<E> sublist = curr.value;
+                Node<E> auxSublist = curr.value;
+                Node<E> aux = curr.value.next;
+                Node<E> aux2 = curr.value.previous;
+                if(sublist.next != sublist){
+                    sublist.next.previous = newList.previous;
+                    newList.previous.next = sublist.next;
+                    newList.previous = sublist.next;
+                    sublist.next.next = newList;
+
+                    auxSublist.next = auxSublist.next.next;
+                    auxSublist.next.previous = auxSublist;
+
+                }
+                curr = curr.next;
+            }
+        }
+
         return newList;
     }
 
@@ -84,6 +127,10 @@ public class ListUtils {
                 else if(maxValaux > maxVal){
                     max = aux;
                     maxVal = maxValaux;
+                    aux = x;
+                    maxValaux = 1;
+                }
+                else{
                     aux = x;
                     maxValaux = 1;
                 }
@@ -126,4 +173,5 @@ public class ListUtils {
             minHeapify(list, smallest,n, cmp);//Volta a chamar o metodo para ordenar os valores abaixo.
         }
     }
+
 }

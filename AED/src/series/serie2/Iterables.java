@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class Iterables {
+
     public static Iterable<String> getPhrasesStart(Iterable<Iterable<String>> phrases, String prefix){
        	return new Iterable<String>() {
 			@Override
@@ -44,14 +45,52 @@ public class Iterables {
 		};
     }
 
-	public static <K,V> Iterable<Pair<K,V>> getEntries(HashNode<K,V>[] hashMap){
-		throw new UnsupportedOperationException();
+	public static <K,V> Iterable<Pair<K,V>> getEntries(final HashNode<K,V>[] hashMap){
+        if(hashMap == null) return null;
+
+		return new Iterable<Pair<K, V>>() {
+            @Override
+            public Iterator<Pair<K, V>> iterator() {
+                return new Iterator<Pair<K, V>>() {
+
+                    int size = hashMap.length, aux = -1;
+                    HashNode<K,V> ret = new HashNode<K,V>();
+                    Pair<K,V> curr = new Pair<K,V>();
+
+                    @Override
+                    public boolean hasNext() {
+                        if (ret.next != null) {
+                            ret = ret.next;
+                            curr = ret.pair;
+                        }
+                        else {
+                                aux += 1;
+                            if (aux == size)
+                                return false;
+                            while (hashMap[aux] == null) {
+                                aux += 1;
+                                if (aux == size)
+                                    return false;
+                            }
+                            ret = hashMap[aux];
+                            curr = ret.pair;
+                        }
+                        return true;
+                    }
+
+                    @Override
+                    public Pair<K, V> next() {
+                        Pair<K,V> aux = curr;
+                        curr = null;
+                        return aux;
+                    }
+                };
+            }
+        };
 	}
 
 	public static <E> Iterable<Pair<E, Integer>> histogram(E[] array){
+
         throw new UnsupportedOperationException();
 	}
-
-
-
 }
