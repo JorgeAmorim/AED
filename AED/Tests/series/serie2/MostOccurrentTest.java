@@ -66,7 +66,7 @@ public class MostOccurrentTest {
 	public void mostOccurrent_listsWithMoreThanOneOcurrence(){
 		Node<Integer>[] array=(Node<Integer>[])new Node[3];
 		initData(array,SETS_OF_ELEMENTS);
-		assertEquals(new Integer(6),mostOccurrent(array, CMP_NATURAL_ORDER));
+		assertEquals(new Integer(2),mostOccurrent(array, CMP_NATURAL_ORDER));
 	}
 
 	private static void initData(Node<Integer>[] array, ArrayList<ArrayList<Integer>> arraylist){
